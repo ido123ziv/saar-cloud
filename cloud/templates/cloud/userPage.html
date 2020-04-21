@@ -1,0 +1,287 @@
+{% extends 'cloud/base.html' %}
+{% block ngApp %}
+ng-app="cloudApp"
+{% endblock %}
+{% block title %}
+Welcome Back
+{% endblock %}
+{% block headimports %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'cloud/resources/alertify.core.css' %}"/>
+<link rel="stylesheet" href="{% static 'cloud/resources/alertify.default.css' %}"/>
+<script src="{% static 'cloud/resources/alertify.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'cloud/stylesheets/userPage.css' %}">
+<script type="text/javascript" src="{% static '/cloud/resources/angular.min.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+{% load staticfiles %}
+<!--Main div-->
+<div class="container-fluid" ng-controller="mainCtrl">
+    <!--Navbar-->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/cloud/userPage" style="font-size: 1.5em;">
+                    <span class="fa fa-cloud" style="color: #498FAC;"></span> SaarCloud
+                </a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <p class="navbar-text">
+                    You can never be too paranoid, always remember to
+                </p>
+                <a class="navbar-btn btn btn-warning btn-sm" href="/cloud/logout">Log out</a>
+                <p class="navbar-text navbar-right" style="margin-right: 5px;">
+                    Logged in as {{ username }}
+                </p>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <!--Body div-->
+    <div class="row">
+        <br/>
+        <br/>
+        <!--Left side: title-->
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 left-side">
+            <!--Welcome title-->
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 welcome-title">
+                    <h1>Welcome Back</h1>
+                    <h1>{{ displayName }}</h1>
+                </div>
+            </div>
+            <hr />
+            <!--About description-->
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <p class="about-desc">
+                        SaarCloud is a web server designed to store and manage files in a single
+                        drive, instead of using several external hard drives<br />
+                        <small>Developed by Omer Saar</small>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <img class="left-side-logo" src="{% static 'cloud/images/cloud-computing.png' %}" />
+            </div>
+        </div>
+
+
+        <br/>
+        <br/>
+        <!--Right side: file manager-->
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 right-side">
+            <img class="right-side-background" src="{% static 'cloud/images/background5.jpg' %}" />
+            <!--Current folder path presentation-->
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 curr-route-text-div">
+                    <p class="curr-route-text">
+                        <strong>SaarCloud>{% verbatim %}{{ currRoute }}{% endverbatim %}</strong>
+                    </p>
+                </div>
+            </div>
+            <!--Tool box-->
+            <div class="row tool-box">
+                <!--Back button-->
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                    <a class="btn" ng-click="goBack()"><span class="fa fa-outdent"></span>Back</a>
+                </div>
+                <!--Add folder-->
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <a class="btn" data-toggle="modal" href="#add-directory">
+                        <span class="fa fa-plus"></span> <span class="fa fa-folder"></span> Directory
+                    </a>
+                </div>
+                <!--Add file-->
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                    <a class="btn" data-toggle="modal" href="#add-file">
+                        <span class="fa fa-plus"></span> <span class="fa fa-file"></span> File
+                    </a>
+                </div>
+                <!--Selected Object-->
+                <span ng-if="fileSelectedIndex != -1">
+                    <!--If file-->
+                    <span ng-if="fileSelected.type != 'directory'">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a id="downloadButton1" class="btn">
+                                <span class="fa fa-cloud-download"></span> Download
+                            </a>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a class="btn" ng-click="deleteFile()">
+                                <span class="fa fa-trash"></span> Delete
+                            </a>
+                        </div>
+                    </span>
+                    <!--If folder-->
+                    <span ng-if="fileSelected.type == 'directory'">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a class="btn" ng-click="deleteDirectory()">
+                                <span class="fa fa-trash"></span> Delete
+                            </a>
+                        </div>
+                    </span>
+                </span>
+
+                <a id="downloadButton2" href="/cloud/files/download"></a>
+            </div>
+            <!--File browser-->
+            <div id="fileBrowser" class="row">
+                <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                <span class="th-sortable">#</span>
+                            </th>
+                            <th class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                <span class="th-sortable" ng-click="sort('name')">Name</span>
+                            </th>
+                            <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                <span class="th-sortable" ng-click="sort('type')">Type</span>
+                            </th>
+                            <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                <span class="th-sortable" ng-click="sort('size')">Size</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="file in files" ng-click="selectRow($index, file)"
+                            ng-class="{active: $index == fileSelectedIndex}">
+                            {% verbatim %}
+                            <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                {{ $index + 1}}
+                            </td>
+                            <td class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                <a class="btn" ng-click="objectClicked(file)">
+                                <span ng-if="file.type == 'directory'" class="fa fa-folder-o"
+                                      style="font-size: 1.5em;"></span>
+                                    <span ng-if="file.type != 'directory'" class="fa fa-file"
+                                          style="font-size: 1.5em;"></span>
+                                    {{ file.name }}
+                                </a>
+                            </td>
+                            <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2 td-file-type">
+                                <strong>{{ file.type }}</strong>
+                            </td>
+                            <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2 td-file-size">
+                                <span ng-if="file.type != 'directory'">
+                                    <div ng-if="file.size < 1000">
+                                        {{ file.size | number: 3 }} KB/s
+                                    </div>
+                                    <div ng-if="file.size >= 1000">
+                                        {{ file.size / 1000 | number: 3 }} MB/s
+                                    </div>
+                                </span>
+                            </td>
+                            {% endverbatim %}
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!--Footer-->
+            <div class="row footer">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <hr />
+                    <h5 class="well well-sm">SaarCloud is brought to you by Omer Saar</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Add Directory -->
+    <div id="add-directory" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4><span class="fa fa-plus-square-o"></span> Add new directory</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" method="post">
+                        <div class="form-group">
+                            <input type="text" ng-model="dirname" class="form-control" name="directoryName"
+                                   placeholder="Directory name..."/>
+                            <label class="text-danger">
+                                <small id="dirnameWarning"></small>
+                            </label>
+                        </div>
+                        <button type="submit" ng-click="createNewDir()" class="btn btn-success btn-block"><span
+                                class="glyphicon glyphicon-off"></span> Create
+                        </button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger btn-default pull-right" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove"></span> Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Add File -->
+    <div id="add-file" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4><span class="fa fa-plus-square-o"></span> Add new file</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" action="/cloud/files/upload" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {% verbatim %}
+                            <label class="text-danger">Directory is set by the current folder</label>
+                            <input type="text" name="dir" class="form-control" value="{{ currRoute }}" readonly/>
+                            <input type="file" name="myfile"/>
+                            {% endverbatim %}
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <span class="fa fa-cloud-upload"></span> Upload
+                        </button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger btn-default pull-right" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove"></span> Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if uploaded %}
+{% if successfully %}
+<script>
+    alertify.success("File uploaded successfully");
+</script>
+{% else %}
+<script>
+    alertify.error("Error in uploading file");
+</script>
+{% endif %}
+{% endif %}
+{% endblock %}
+
+{% block jsimports %}
+{% load staticfiles %}
+<script src="{% static 'cloud/javascripts/userPage.js' %}"></script>
+{% endblock %}

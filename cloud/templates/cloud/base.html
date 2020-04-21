@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" {% block ngApp %}{% endblock %}>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>{% block title %}Saar Cloud{% endblock %}</title>
+
+    {% load staticfiles %}
+    <script type="text/javascript" src="{% static 'cloud/resources/jquery-3.1.0.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'cloud/resources/font-awesome.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'cloud/resources/animate.css' %}"/>
+    <link rel="stylesheet" href="{% static 'cloud\resources\bootstrap-3.3.7-dist\css\bootstrap.min.css' %}"/>
+    <script src="{% static 'cloud\resources\bootstrap-3.3.7-dist\js\bootstrap.min.js' %}"></script>
+    {% block headimports %}
+    {% endblock %}
+</head>
+<body>
+    {% block body %}
+    {% endblock %}
+
+    {% block jsimports %}
+    {% endblock %}
+</body>
+</html>

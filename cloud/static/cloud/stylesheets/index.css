@@ -1,0 +1,29 @@
+#container {
+    background: #007EA7;
+    background: linear-gradient(to bottom right, #05668D, #427AA1, #EBF2FA, #031A6B, #031D44);
+}
+
+.main-icon {
+    margin: 50px 0 0 0;
+    color: #fff;
+    font-size: 5em;
+}
+
+h1 {
+    color: #fff;
+    font-family: "Brush Script MT", cursive;
+	font-size: 50px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 500;
+	line-height: 26.4px;
+}
+
+.sign-in-text {
+    font-family: Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+	font-size: 20px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 500;
+	line-height: 15.4px;
+}

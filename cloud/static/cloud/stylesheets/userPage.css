@@ -1,0 +1,124 @@
+body {
+    bg-color: white;
+    /*background-image: url('../images/shattered.png');*/
+}
+
+.welcome-title {
+    text-align: center;
+    color: #E5F6FD;
+}
+
+h1 {
+    font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+    font-size: 24px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    line-height: 26.4px;
+}
+
+.curr-route-text-div {
+    position: absolute;
+    max-width: 65%;
+}
+
+.curr-route-text {
+    font-family: "Lucida Bright", Georgia, serif;
+	font-size: 22px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 400;
+	line-height: 20px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    color: dodgerblue;
+}
+
+.left-side {
+    background-color: #678F9F;
+    position: fixed;
+    height: 100%;
+    width: 14%;
+    /*background: linear-gradient(to bottom right, #05668D, #427AA1, #EBF2FA, #031A6B, #031D44);*/
+    border-top-right-radius: 50px;
+}
+
+.about-heading {
+    overflow-x: auto;
+    text-align: center;
+}
+
+.about-desc {
+    overflow-x: auto;
+    color: #d9edf7;
+}
+
+.left-side-logo {
+    position:fixed;
+    bottom: 0;
+    width: 14%;
+    height: 20%;
+}
+
+.th-sortable {
+    cursor: pointer;
+    font-size: 16px;
+    color: #7b75b8;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.right-side {
+    left: 15%;
+}
+
+.right-side-background {
+    position: fixed;
+    top : 7%;
+    left: 12%;
+    width: 89%;
+    height: 95%;
+    opacity: 0.2;
+    z-index: -1;
+}
+
+.tool-box {
+    margin-top: 4%;
+}
+
+tr {
+    width: 100%;
+    display: inline-table;
+}
+
+table {
+    height:300px;
+}
+
+tbody {
+    overflow-y: auto;
+    max-height: 417px;
+    width: 100%;
+    position: absolute;
+}
+
+.td-file-type {
+    font-family: Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+	font-size: 16px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 400;
+	line-height: 20px;
+    color: #4acd46;
+}
+
+.td-file-size {
+    color: #49c745;
+}
+.footer {
+    margin-top: 15%;
+}

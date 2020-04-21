@@ -1,0 +1,70 @@
+{% extends 'cloud/base.html' %}
+{% block headimports %}
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'cloud/stylesheets/index.css' %}"/>
+{% endblock %}
+{% block body %}
+<div id="container" class="container">
+    <center>
+        <span class="main-icon fa fa-cloud animated fadeInDown" style="-webkit-animation-delay: 1s;"></span>
+        <h1>
+            <p class="animated fadeInDown">Welcome to</p><br/>
+            <strong class="animated fadeInDown" style="-webkit-animation-delay: 0.5s;">Saar Cloud</strong>
+        </h1>
+    </center>
+    <br/>
+    {% if inSession %}
+    <div class="row animated bounceIn" style="-webkit-animation-delay: 1.7s;">
+        <div class="col-lg-4 col-md-4 col-sm-3"></div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h4 class="text-center sign-in-text"><strong>Welcome Back</strong></h4>
+                    <h4 class="text-center sign-in-text">{{ user }}</h4>
+                    <a href="/cloud/userPage" class="btn btn-sm btn-primary btn-block sign-in-text">
+                        To your cloud<span class="fa fa-cloud-upload"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="row animated bounceIn" style="-webkit-animation-delay: 1.7s;">
+        <div class="col-lg-4 col-md-4 col-sm-3"></div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h4 class="text-center sign-in-text"><strong>Sign In</strong></h4>
+                    <form class="form form-signup" role="form" action="/cloud/login" method="post">{% csrf_token %}
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                <input id="username" type="text" class="form-control" name="username"
+                                       placeholder="username"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                                <input id="password" type="password" class="form-control" name="password"
+                                       placeholder="password"/>
+                            </div>
+                        </div>
+
+                        <input type="submit" class="btn btn-sm btn-primary btn-block sign-in-text" role="button"
+                               value="Let's Go"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block jsimports %}
+{% load staticfiles %}
+<!-- Load JS files-->
+<script src="{% static 'cloud/javascripts/index.js' %}"></script>
+{% endblock %}
